@@ -25,6 +25,8 @@ int main(int argc, char** argv) {
 		/**
 		* TODO 子程序执行啥？
 		**/
+		ptrace(PTRACE_TRACEME, 0, NULL, NULL);
+    	execl("interesting", "interesting", NULL);
 	} else if (child_pid > 0) {
 		//父进程执行
 		int cnt = 0;
@@ -44,6 +46,9 @@ int main(int argc, char** argv) {
 			* X86-64中，RIP寄存器用于指向当前执行的指令位置
 			* 可以通过regs.rip来访问 RIP寄存器的值
 			**/
+			ptrace(PTRACE_GETREGS, child, 0, &regs);
+			long instr = ptrace(PTRACE_PEEKTEXT, child, )
+
 			printf("[%u] RIP = 0x%016x, Instruction = 0x%016x\n", cnt,
 					regs.rip, instr);
 			printf("EAX: 0x%08x ", ptrace(PTRACE_PEEKUSER, child_pid, 8 * RAX, NULL));
